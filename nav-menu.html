@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>Mobile navigation</title>
+
+    <!-- font awesome -->
+    <script src="https://use.fontawesome.com/d5a57d23ed.js"></script>
+    <!-- Jquery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!-- bulma -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.5.2/css/bulma.min.css">
+    <!-- css -->
+    <link rel="stylesheet" href="style-nav.css">
+
+</head>
+<body>
+    <div class="mobile-nav-wrapper">
+        <div class="nav-header" data-nav-item="nav-header">
+            <i class="fa fa-bars" aria-hidden="true"></i>
+        </div>
+        <div class="columns is-mobile">
+            <div class="column" data-nav-item="nav-item" style="background-color: #0C0C0B;">
+                <div style="position: relative">
+                    <span class="count"></span>
+                </div>
+            </div>
+            <div class="column" data-nav-item="nav-item" style="background-color: #1E1F1E;"></div>
+        </div>
+        <div class="columns is-mobile">
+            <div class="column" data-nav-item="nav-item" style="background-color: #FF0015;"></div>
+            <div class="column" data-nav-item="nav-item" style="background-color: #FF0040;"></div>
+        </div>
+        <div class="columns is-mobile">
+            <div class="column" data-nav-item="nav-item" style="background-color: #2B2B29;"></div>
+            <div class="column" data-nav-item="nav-item" style="background-color: #1D201E;"></div>
+        </div>
+        <div class="columns is-mobile">
+            <div class="column" data-nav-item="nav-item" style="background-color: #FF5100;"></div>
+            <div class="column" data-nav-item="nav-item" style="background-color: #FF0015;"></div>
+        </div>
+    </div>
+    <div style="position: fixed; z-index: -1;">
+        <div class="x">click me te open nav</div>
+    </div>
+<script>
+// DOCUMENT READY
+$(function() {
+    // START: Calculate height of nav-items
+    var navHeaderHeight;
+    var $navItem;
+    var viewportHeight;
+
+    function calcNavItemHeight() {
+        navHeaderHeight = $('[data-nav-item="nav-header"]').height();
+        $navItem = $('[data-nav-item="nav-item"]');
+        viewportHeight = $( window ).height();
+        $navItem.css("height", ((viewportHeight - navHeaderHeight)/4))
+    }
+
+    calcNavItemHeight()
+    // END: Calculate height of nav-items
+
+    // START: resize function to call function and reset variables on resize of window
+    $( window ).resize(function() {
+        calcNavItemHeight()
+
+        viewportWidth = $( window ).width();
+        $navOpen.trigger('click')
+    })
+    // END: resize function
+
+    // START: Animate e-mail counter
+    function countEmails() {
+        var startNumber = 0;
+        var endNumber = 10; //this wil be the mail counter
+
+        var i = setInterval(function(){
+            startNumber++;
+            $(".count").html(startNumber)
+            if (startNumber >= endNumber) {
+                clearInterval(i);
+            }
+        }, 200);
+    }
+
+    countEmails()
+    // END: Animate e-mail counter
+
+    var $navClose = $(".fa-bars");
+    var $navOpen = $(".x");
+    var $navWrapper = $(".mobile-nav-wrapper");
+    var viewportWidth = $( window ).width();
+
+    $navOpen.css(
+        "left", viewportWidth
+    )
+
+    $navClose.on('click', function() {
+        $navWrapper.animate({
+            right: viewportWidth
+        }, "slow"),
+        $(".x").animate({
+            left: 0
+        },"slow")
+    })
+
+    $navOpen.on('click', function() {
+        $navWrapper.animate({
+            right: 0
+        }, "slow"),
+        $(".x").animate({
+            left: viewportWidth
+        },"slow")
+        countEmails()
+    })
+});
+// END DOCUMENT READY
+</script>
+</body>
+</html>
